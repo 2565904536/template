@@ -6,8 +6,7 @@
 // #include<SDL2/SDL_ttf.h>
 #include <vector>
 #include <string>
-// #include <memory>
-// #include<SDL2/SDL_mixer.h>
+
 
 class Manager
 {

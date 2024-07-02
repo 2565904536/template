@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
     TTF_Init();
 
-    gameInstance game("Game Template", 100, 100, 1280, 720, false);
+    gameInstance game("Sea World", 100, 100, 1280, 720, false);
     game.Init();
     game.state = gameInstance::State::LOOP;
     while (game.state == gameInstance::State::LOOP)

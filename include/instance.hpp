@@ -2,9 +2,7 @@
 #define GAME_INSTANCE_HPP
 
 #include <game/Game.hpp>
-#include <map>
 #include <game/Sprites.hpp>
-#include <string>
 #include <game/Manager.hpp>
 class gameInstance : public Game
 {
@@ -14,7 +12,7 @@ public:
     void Init() override;
     void Loop() override;
     void Clean() override;
-    std::map<std::string, Sprites *> sprites;
+
     enum class State
     {
         INIT,
@@ -22,13 +20,18 @@ public:
         EXIT
     } state;
     Manager manager;
+
+    Sprites* background;
+    Sprites* fish1;
+    Sprites* fish2;
+    Sprites* fish3;
 };
 
 class fish : public Sprites
 {
 public:
     fish() = default;
-    fish(SDL_Rect frame, SDL_Rect hitBox, SDL_Texture *texture) : Sprites(frame, hitBox, texture) {};
+    fish(Frame frame, SDL_Rect hitBox, SDL_Texture *texture) : Sprites(frame, hitBox, texture) {};
     ~fish() = default;
     int velocityX = 0;
     int velocityY = 0;
