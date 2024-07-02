@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.29.3)
 project(Template)
 
 set(CMAKE_CXX_STANDARD 23)
-file(GLOB SRC "${PROJECT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE SRC "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
