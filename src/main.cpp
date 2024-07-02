@@ -151,6 +151,12 @@ int gameInstance::event_loop()
                 case SDLK_i:
                     std::println("velocity:{},angle:{}", velocity, angle);
                     break;
+                case SDLK_LEFT:
+                    angle -= 3.14 / 8.0;
+                    break;
+                case SDLK_RIGHT:
+                    angle += 3.14 / 8.0;
+                    break;
 
                 default:
                     break;
@@ -163,8 +169,8 @@ int gameInstance::event_loop()
             }
         }
 
-        int velocityX = velocity * cos(angle) / fps;
-        int velocityY = velocity * sin(angle) / fps;
+        int velocityX = velocity * cos(angle) ;
+        int velocityY = velocity * sin(angle) ;
         rect.x = SDL_max(rect.x, 0);
         rect.y = SDL_max(rect.y, 0);
         rect.x = SDL_min(rect.x, WINDOW_WIDTH - rect.w);
@@ -182,7 +188,7 @@ int gameInstance::event_loop()
         renderClear();
         SDL_RenderFillRect(renderer, &rect);
         Present();
-        std::print("fps:{}", fps);
+        // std::print("fps:{}", fps);
 
         // std::println("event loop {} finished", loopCircle++);
         SDL_Delay(5);
