@@ -3,7 +3,44 @@
 
 #include <game/Game.hpp>
 #include <game/Sprites.hpp>
+#include <game/Motion.hpp>
 #include <game/Manager.hpp>
+
+#include <random>
+class Gold : public Sprites, public Motion
+{
+
+public:
+    Gold();
+    Gold(const vec2f &position, SDL_Texture *texture, SDL_Point size, int frameNums, double angle);
+    SDL_Point mapToScreenPixel() override;
+    void updateMotion(float fps) override;
+    enum class State
+    {
+        IDLE,
+        CATCH,
+        DEAD
+    } state = State::IDLE;
+};
+
+typedef Gold GoldMiner;
+
+class Hook : public Sprites, public Motion
+{
+public:
+    Hook(const vec2f &origin, const vec2f &position, SDL_Texture *texture, const SDL_Point &size);
+    SDL_Point mapToScreenPixel() override;
+    void updateMotion(float fps) override;
+
+    enum class State
+    {
+        WAIT,
+        RELEASE,
+        RETRACT
+    } state = State::WAIT;
+    vec2f origin;
+};
+
 class gameInstance : public Game
 {
 public:
@@ -12,28 +49,25 @@ public:
     void Init() override;
     void Loop() override;
     void Clean() override;
-
     enum class State
     {
-        INIT,
+        PAUSED,
+        RUNNING,
+        EXIT,
         LOOP,
-        EXIT
-    } state;
+        INIT
+    };
+    State GameState, instanceState;
+
     Manager manager;
+    Gold background;
+    Gold gameBegin;
+    Gold *gold[10];
+    GoldMiner *goldMiner;
+    Hook *hook;
 
-    Sprites* background;
-    Sprites* fish1;
-    Sprites* fish2;
-    Sprites* fish3;
+    Uint64 lastTime;
+    std::default_random_engine randomEngine;
 };
 
-class fish : public Sprites
-{
-public:
-    fish() = default;
-    fish(Frame frame, SDL_Rect hitBox, SDL_Texture *texture) : Sprites(frame, hitBox, texture) {};
-    ~fish() = default;
-    int velocityX = 0;
-    int velocityY = 0;
-};
 #endif

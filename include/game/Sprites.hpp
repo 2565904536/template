@@ -9,13 +9,15 @@ struct Frame
     double angle;
     SDL_Point center;
     SDL_RendererFlip flip;
+    SDL_Point size;
+    int nums;
 };
 
 class Sprites
 {
 public:
     Frame frame;
-    Sprites() = default;
+    Sprites() {};
     Sprites(Frame frame, SDL_Texture *texture) : frame{frame}, texture{texture} {}
     Sprites(Frame frame, SDL_Rect hitBox, SDL_Texture *texture) : frame{frame}, hitBox{hitBox}, texture{texture} {}
     ~Sprites() = default;
@@ -24,14 +26,25 @@ public:
 
     SDL_Rect hitBox;
     SDL_Texture *texture;
-    void draw(SDL_Renderer *renderer) { SDL_RenderCopyEx(renderer, texture, NULL, &frame.box, frame.angle, NULL, frame.flip); }
-    struct velocity
+    void draw(SDL_Renderer *renderer)
     {
-        int x;
-        int y;
-    } velocity;
+
+        int a = index / frame.size.x;
+        int b = index % frame.size.x;
+        SDL_Rect src = {b * frame.box.w, a * frame.box.h, frame.box.w, frame.box.h};
+        SDL_RenderCopyEx(renderer, texture, &src, &frame.box, frame.angle, &frame.center, frame.flip);
+    }
+
+    void nextFrame()
+    {
+        index++;
+        int range = frame.nums;
+        if (index >= range)
+            index = index % range;
+    }
 
 private:
+    unsigned int index = 0;
 };
 
 #endif // SPRITES_HPP
